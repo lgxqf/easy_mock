@@ -191,6 +191,6 @@ apis:
 - JSON Schema入门 https://www.jianshu.com/p/1711f2f24dcf?utm_campaign=hugo
 - python打包及支持pip安装 https://blog.csdn.net/sinat_33718563/article/details/88928950
 - 常用命令：
-  * curl -X POST 'http://172.20.25.168:9000/login/mcw' -d '{"username":"zhangsan", "password": "123"}' | python -m json.tool
+  * curl -X POST 'http://127.0.0.1:9000/login/' -d '{"username":"zhangsan", "password": "123"}' | python -m json.tool
 
 
