@@ -400,5 +400,5 @@ if __name__ == '__main__':
     # file = "../server/server.proto"
     # Pb2Yaml.pb2ymal(file)
 
-    file = "../server/gw.swagger.json"
+    file = "../server/swagger.json"
     Swagger2Yaml.swagger_2_yaml(file)
