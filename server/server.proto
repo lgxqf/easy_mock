@@ -1,0 +1,118 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "github.com/mwitkow/go-proto-validators/validator.proto";
+
+package example.project;
+
+message AnalysisConfigRequest {
+  int32 age = 1 [(validator.field) = {int_gt: 0, int_lt: 100}];
+  string name = 2 [(validator.field) = {regex:"^[a-z0-9\\-]+$", length_eq: 50}];
+
+  message RealtimeConfig {
+    int32 min_interval = 1;
+  }
+
+  message MapConfig {
+    int32 size = 1;
+  }
+
+  bool map_config = 3;
+  RealtimeConfig time = 4;
+  MapConfig map = 5;
+
+  oneof location {
+    int32 latitude = 6;
+    int32 longitude = 7;
+  }
+}
+
+message AuthorizationRequest {
+  string account = 1 [(validator.field) = {regex:"^[a-zA-Z0-9_\\-\\.]+$", length_gt: 3, length_lt: 21}];
+  string password = 2 [(validator.field) = {regex:"^[a-zA-Z0-9]+$",length_gt: 5, length_lt: 19}];
+}
+
+message AuthorizationResponse {
+  string token = 1;
+}
+
+message EmptyRequest {
+}
+
+message EmptyResponse {
+}
+
+
+enum Personnel {
+  PERSONNEL_LEVEL_UNKNOWN = 0;
+  PERSONNEL_LEVEL_RED = 1;
+  PERSONNEL_LEVEL_ORANGE = 2;
+  PERSONNEL_LEVEL_YELLOW = 3;
+
+}
+
+enum Status {
+  STATUS_SEND = 0;
+  STATUS_UNSEND = 1;
+}
+
+message Result {
+  string key = 1;
+  bytes score_desc = 2;
+  string personnel_kind = 3;
+  bool is_hit = 4;
+  float hit_score = 5;
+  double similar_score = 6;
+  int32 count = 7;
+}
+
+message CompareRequest {
+  string device_id = 1 [(validator.field) = {regex:"^[0-9]+$", length_eq: 20}];
+  google.protobuf.Timestamp captured_time = 2;
+  bytes image = 3;
+  string image_id = 4;
+  bytes liveness_image = 5;
+  string image_url = 6;
+  string face_id = 7;
+  Personnel personnel = 8;
+  Status status = 9;
+  repeated string name = 10;
+}
+
+message CompareResponse {
+  string image_id = 1 [(validator.field) = {length_lt: 256}];
+  bytes score_desc = 2;
+  string personnel_kind = 3;
+  bool is_hit = 4;
+  float hit_score = 5;
+  double similar_score = 6;
+  int32 count = 7;
+  repeated Result result = 8;
+
+}
+
+message Info {
+  string track_id = 1;
+  string device_id = 2;
+  string entity_id = 3;
+  google.protobuf.Timestamp captured_time = 4;
+  string image_url = 5;
+}
+
+service ExamplePublic {
+
+  rpc Authorization(AuthorizationRequest) returns (AuthorizationResponse) {
+    option (google.api.http) = {
+      get: "/authorize"
+      body: "*"
+    };
+  }
+
+  rpc Compare(CompareRequest) returns (CompareResponse) {
+    option (google.api.http) = {
+      post: "/compare/{image_id}"
+      body: "*"
+    };
+  }
+}

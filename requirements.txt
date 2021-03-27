@@ -1,0 +1,4 @@
+jsonschema
+loguru
+pyyaml
+flask

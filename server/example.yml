@@ -1,0 +1,76 @@
+apis:
+  # 最精简写法
+  - url: login # 接口路径
+    method: GET # 接口方法
+    defined_data_list: # 自定义返回 如果请求体于list中的body匹配， 则返回对应的response
+      [
+        {
+          body: { "username": "edison", "password": "123" },
+          response: { "code": -1, "msg": "密码输入不正确" }
+        }
+      ]
+
+  - url: login # 接口路径
+    method: POST # 接口方法
+    setup: xxx_setup # 调用processor.py中的xxx_setup方法 对传入的request进行处理并返回处理后的request
+    teardown: xxx_teardown # 调用processor.py中的xxx_teardown方法 对传入的response进行处理并返回处理后的response
+    request_schema: # 请求json schema 不传则不做输入合法性校验
+        {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+          },
+          "required": [
+            "username",
+            "password"
+          ]
+        }
+    response_schema: # 响应json schema, 根据schema生成mock数据  response_schema 和 defined_data_list必须有一个匹配
+        {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "integer", # 数据类型
+              "maximun": 100, # 数据范围 最大
+              "minimun": 1 # 数据范围 最小
+            },
+            "msg": {
+              "type": "string"
+            },
+            "token": {
+              "type": "string"
+            },
+          },
+          "required": [   # 若指定required, 则每次必定返回 code、 msg字段, token字段则随机返回
+            "code",
+            "msg"
+          ]
+        }
+    defined_data_list: # 自定义返回 如果请求体于list中的body匹配， 则返回对应的response  response_schema 和 defined_data_list必须有一个匹配
+        [
+          {
+            body:{"username":"edison", "password":"123"},
+            response:{"code":-1, "msg":"密码输入不正确"}
+          },
+          {
+            body:{"username":"lily", "password":"123"},
+            response:{"code":-2, "msg":"用户名不存在"}
+          },
+          {
+            body:{"username":"root", "password":"123"},
+            response:{"code":1, "msg":"登录成功", "token":"5lCadRru(ADn2IE!$LV%x%JF3JNmz*Nf5nFieUG!r((&esi2CLI$jb!227Lh"}
+          },
+          {
+            body:{"username":"lily"},
+            response:{"code":-1, "msg":"密码是必填的"}
+          },
+          {
+            body:{"password":"123"},
+            response:{"code":-1, "msg":"用户名是必填的"}
+          }
+        ]

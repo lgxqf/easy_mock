@@ -1,0 +1,16 @@
+*.egg-info*
+*.log.*
+*.lock
+*.out
+*.pyc
+*.pyo
+*.zip
+__pycache__
+.DS_Store
+
+.idea/
+build/
+dist
+venv/
+
+

@@ -1,0 +1,119 @@
+apis:
+  - url: /authorize
+    method: GET
+    name: Authorization
+    sleep: 5
+    request_schema: 
+        {
+            "type": "object",
+            "title": "The AuthorizationRequest Schema",
+            "required": [], 
+            "properties": {
+                "account": {
+                    "type": "string",
+                },
+                "password": {
+                    "type": "string",
+                },
+            }
+        }
+    response_schema: 
+        {
+            "type": "object",
+            "title": "The AuthorizationResponse Schema",
+            "required": [], 
+            "properties": {
+                "token": {
+                    "type": "string",
+                },
+            }
+        }
+    defined_data_list: []
+    # setup: xxx_setup
+    # teardown: xxx_teardown
+
+  - url: /compare/{image_id}
+    method: POST
+    name: Compare
+    request_schema: 
+        {
+            "type": "object",
+            "title": "The CompareRequest Schema",
+            "required": [], 
+            "properties": {
+                "device_id": {
+                    "type": "string",
+                },
+                "captured_time": {
+                    "type": "object",  # google.protobuf.Timestamp
+                },
+                "image": {
+                    "type": "string",  # bytes
+                },
+                "image_id": {
+                    "type": "string",
+                },
+                "liveness_image": {
+                    "type": "string",  # bytes
+                },
+                "image_url": {
+                    "type": "string",
+                },
+                "face_id": {
+                    "type": "string",
+                },
+                "personnel": {
+                    "type": "object",  # Personnel
+                },
+                "status": {
+                    "type": "object",  # Status
+                },
+                "name": {
+                    "type": "array",
+                    "items": [
+                        {
+                            "type": "object",  # string
+                        },
+                    ]
+                },
+            }
+        }
+    response_schema: 
+        {
+            "type": "object",
+            "title": "The CompareResponse Schema",
+            "required": [], 
+            "properties": {
+                "image_id": {
+                    "type": "string",
+                },
+                "score_desc": {
+                    "type": "string",  # bytes
+                },
+                "personnel_kind": {
+                    "type": "string",
+                },
+                "is_hit": {
+                    "type": "boolean",  # bool
+                },
+                "hit_score": {
+                    "type": "number",  # float
+                },
+                "similar_score": {
+                    "type": "number",  # double
+                },
+                "count": {
+                    "type": "integer",  # int32
+                },
+                "result": {
+                    "type": "array",  # Result
+                    "items": [
+                        {
+                            "type": "object",  # Result
+                        },
+                    ]
+                },
+            }
+        }
+    defined_data_list: []
+
