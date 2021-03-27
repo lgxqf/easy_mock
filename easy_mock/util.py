@@ -381,7 +381,7 @@ class Swagger2Yaml:
                 print(str(para))
                 print("schema key world found in req")
 
-        properties.append(2*tab + "}\n")
+        properties.append(2 * tab + "}\n")
 
         req_elem_val = 2 * tab + "\"required\": ["
         for required_elem in required_list:
@@ -393,8 +393,9 @@ class Swagger2Yaml:
         return req_schema
 
     @classmethod
-    def get_res_schema(cls,para_list, title):
+    def get_res_schema(cls, para_list, title):
         pass
+
 
 if __name__ == '__main__':
     # file = "../server/server.proto"
