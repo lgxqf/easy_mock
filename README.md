@@ -2,8 +2,8 @@
 
 ## 简单、易用的接口Mock工具
 
-根据Yaml文件快速生成接口Mock服务
-要求python版本 > 3.7
+- 根据Yaml文件快速生成接口Mock服务
+- 要求python版本 > 3.7
 
 ## Yaml文件示例
 ```yaml
