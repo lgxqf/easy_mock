@@ -40,7 +40,7 @@ apis:
 一、pip安装（不需要源码）
 pip install easy-mock
 
-二、源码安装
+二、源码安装(需安装setuptools)
 下载源码并进入到setup.py所在目录
 python setup.py install
 ```
