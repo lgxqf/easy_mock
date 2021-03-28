@@ -3,6 +3,7 @@
 ## 简单、易用的接口Mock工具
 
 根据Yaml文件快速生成接口Mock服务
+要求python版本 > 3.7
 
 ## Yaml文件示例
 ```yaml
@@ -68,9 +69,10 @@ optional arguments:
 ```
 
 ### 启动Mock Server
-
+服务启动后可调用yml中定义的mock服务
 ```sh
 easy_mock example.yml
+curl -H "Content-Type: application/json" -X POST 'http://127.0.0.1:9000/login' -d '{"username":"edison", "password": "123"}' | python -m json.tool
 ```
 
 
@@ -184,7 +186,4 @@ easy_mock server.proto -res
 - Json schema用法 http://json-schema.org/
 - JSON Schema入门 https://www.jianshu.com/p/1711f2f24dcf?utm_campaign=hugo
 - python打包及支持pip安装 https://blog.csdn.net/sinat_33718563/article/details/88928950
-- 常用命令：
-  * curl -X POST 'http://127.0.0.1:9000/login/' -d '{"username":"zhangsan", "password": "123"}' | python -m json.tool
-
 
