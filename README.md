@@ -2,32 +2,35 @@
 
 ## 简单、易用的接口Mock工具
 
-根据Yaml文件快速生成Mock接口
+根据Yaml文件快速生成接口Mock服务
+
+## Yaml文件示例
+```yaml
+example.yml
+
+apis:
+  # 最精简写法
+  - url: login # 接口路径
+    method: GET # 接口方法
+    defined_data_list: # request与response的匹配关系
+      [
+        {
+          body: { "username": "edison", "password": "123" },
+          response: { "code": -1, "msg": "密码输入不正确" }
+        }
+      ]
+```
 
 ## v 1.0 主要功能
 - 根据Yaml文件内容返回Mock数据，两种方式： 
-  - 一、根据request返回defined_data_list中与之匹配的response
-  - 二、若defined_data_list未定义或无与request匹配的response,则根据response_schema返回随机数据：
-    - 支持的随机数据类型:
-      - bool 
-      - int 
-      - float 
-      - double 
-      - string
-- 根据PB(.proto)生成Mock接口文件
-    - 生成接口时可通过res和req选项生成response_schema和request_schema
-- 根据request-schema对输入的数据做校验
-- 支持命令行配置参数
-- 支持ini文件配置
+  - 一、根据request内容返回defined_data_list中与之匹配的response
+  - 二、若defined_data_list未定义或无与request内容匹配的response,则根据response_schema返回随机数据：
+    - 支持的随机数据类型: bool, int, float, double, string
+- 根据PB(.proto)生成Mock接口文件(yml)
 - 支持输入文件和目录
 - 支持http/https
 - 支持对request和response做定制化处理（见自定义扩展）
-- 支持延时返回(sleep关键字)
 
-## To Do
-
-- 支持Swagger定义的接口文件
-- 支持Request,Response schema存放在单独的文件
 
 ## 安装
 
@@ -49,7 +52,7 @@ python setup.py install
 $ easy_mock -h
 usage: easy_mock [-h] [-v] [-p PORT] [-https] [-req] [-res] file_path
 
-Generate mock service according to the YAML/JSON file in the current directory
+Generate mock service according to the YAML file
 
 positional arguments:
   file_path      yaml configuration file, directory or .proto file
@@ -57,45 +60,55 @@ positional arguments:
 optional arguments:
   -h, --help     show this help message and exit
   -v, --version  show version
-  -p PORT        port that needs mock service.
+  -p             mock service port
   -https         enable mock server https protocol
   -req           generate request_schema in yaml
   -res           generate response_schema in yaml
 
 ```
 
-### 将PB转换为Yaml
-
-**参数为.proto文件类型时生成yaml文件**
-```sh
-easy_mock server.proto -res
-输出server.yml
-```
-
 ### 启动Mock Server
-**参数为.yml or .yaml文件时启动mock server**
 
 ```sh
 easy_mock example.yml
 ```
 
-### Yaml文件示例及详解
-#### 精简写法
-```yaml
-apis:
-  # 最精简写法
-  - url: login # 接口路径
-    method: GET # 接口方法
-    defined_data_list: # request与response的匹配关系
-      [
-        {
-          body: { "username": "edison", "password": "123" },
-          response: { "code": -1, "msg": "密码输入不正确" }
-        }
-      ]
+
+## 自定义扩展
+
+在当前目录下新建python文件 `processor.py`
+
+```sh
+$ touch processor.py
+$ vim processor.py
+
+# 函数命名无限制，在yaml指定函数名即可 
+def xxx_setup(req): 
+
+    req["username"] = "abc"
+   
+    return req
+
+def xxx_teardown(req, resp):
+ 
+    resp["age"] = 100
+    
+    return resp
 ```
 
-#### 复杂写法
+在YAML文件中新增`setup` or `teardown`字段
+
+```yaml
+apis:
+  login:
+    name: 用户登录
+    desc: 用户登录成功，接口会返回一个token
+    method: POST
+    setup: xxxx_setup # 指定前置处理函数名，此函数接受一个参数, 对请求体做前置操作
+    teardown: xxx_teardown # 指定后置处理函数名，此函数接受两个参数, 对请求体和响应体做后置操作
+```
+
+### Yaml文件示例及详解(复杂写法)
 ```yaml
   - url: login # 接口路径
     method: POST # 接口方法
@@ -151,39 +164,20 @@ apis:
 ```
 
 
-## 自定义扩展
+## 将PB转换为Yaml
 
-在当前目录下新建python文件 `processor.py`
-
+**参数为.proto文件类型时生成yaml文件**
 ```sh
-$ touch processor.py
-$ vim processor.py
-
-# 函数命名无限制，在yaml指定函数名即可 
-def xxx_setup(req): 
-
-    req["username"] = "abc"
-   
-    return req
-
-def xxx_teardown(req, resp):
- 
-    resp["age"] = 100
-    
-    return resp
+easy_mock server.proto -res
+输出server.yml
 ```
 
-在YAML文件中新增`setup` or `teardown`字段
+## To Do
 
-```yaml
-apis:
-  login:
-    name: 用户登录
-    desc: 用户登录成功，接口会返回一个token
-    method: POST
-    setup: xxxx_setup # 指定前置处理函数名，此函数接受一个参数, 对请求体做前置操作
-    teardown: xxx_teardown # 指定后置处理函数名，此函数接受两个参数, 对请求体和响应体做后置操作
-```
+- 支持Swagger定义的接口文件
+- 支持Request,Response schema存放在单独的文件
+- 支持延时返回(sleep关键字)
+
 
 ## 参考文档
 
