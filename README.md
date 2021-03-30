@@ -117,7 +117,6 @@ apis:
 ```yaml
   - url: login # 接口路径
     method: POST # 接口方法
-    sleep: 5 # （可选）延迟返回时间 单位：秒
     request_schema: # （可选）用于对request body做合法性校验
       {
         "type": "object",
