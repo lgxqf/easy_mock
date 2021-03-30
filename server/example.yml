@@ -12,8 +12,8 @@ apis:
 
   - url: login # 接口路径
     method: POST # 接口方法
-    setup: xxx_setup # 调用processor.py中的xxx_setup方法 对传入的request进行处理并返回处理后的request
-    teardown: xxx_teardown # 调用processor.py中的xxx_teardown方法 对传入的response进行处理并返回处理后的response
+#    setup: xxx_setup # 调用processor.py中的xxx_setup方法 对传入的request进行处理并返回处理后的request
+#    teardown: xxx_teardown # 调用processor.py中的xxx_teardown方法 对传入的response进行处理并返回处理后的response
     request_schema: # 请求json schema 不传则不做输入合法性校验
         {
           "type": "object",
@@ -55,7 +55,7 @@ apis:
         [
           {
             body:{"username":"edison", "password":"123"},
-            response:{"code":-1, "msg":"密码输入不正确"}
+            response:{"code":-10, "msg":"密码输入不正确"}
           },
           {
             body:{"username":"lily", "password":"123"},
