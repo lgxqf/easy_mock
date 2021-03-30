@@ -226,8 +226,9 @@ class Pb2Yaml:
 
             # find last line of blob
             while index < length and not blob_end_found:
+
                 # ignore empty line
-                if len(line) > 1:
+                if len(line) > 1 and not line.strip().startswith("//"):
                     blob_content.append(line)
 
                 if line.endswith("{\n"):
@@ -257,7 +258,6 @@ class Pb2Yaml:
             cls.analyze_pb_content(blob, class_dict)
 
         return class_dict
-        pass
 
     @classmethod
     def analyze_pb_content(cls, pb_content, class_dict):
@@ -398,8 +398,8 @@ class Swagger2Yaml:
 
 
 if __name__ == '__main__':
-    # file = "../server/server.proto"
-    # Pb2Yaml.pb2ymal(file)
+    file = "../server/server.proto"
+    Pb2Yaml.pb2ymal(file, req_schema=False)
 
-    file = "../server/swagger.json"
-    Swagger2Yaml.swagger_2_yaml(file)
+    # file = "../server/swagger.json"
+    # Swagger2Yaml.swagger_2_yaml(file)
