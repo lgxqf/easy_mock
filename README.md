@@ -16,25 +16,14 @@ apis:
   # 最精简写法
   - url: login # 接口路径
     method: POST # 接口方法
-    defined_data_list: # request与response的匹配关系
+    defined_data_list: # 在此处定义request与response的匹配关系
       [
         {
-          body: { "username": "edison", "password": "123" },
-          response: { "code": -1, "msg": "密码输入不正确" }
+          body: { "username": "edison", "password": "123" }, # request body
+          response: { "code": -1, "msg": "密码输入不正确" } # response body
         }
       ]
 ```
-
-## v 1.0 主要功能
-- 根据Yaml文件内容返回Mock数据，两种方式： 
-  - 一、根据request内容返回defined_data_list中与之匹配的response
-  - 二、若defined_data_list未定义或无与request内容匹配的response,则根据response_schema返回随机数据：
-    - 支持的随机数据类型: bool, int, float, double, string
-- 根据PB(.proto)生成Mock接口文件(yml)
-- 支持输入文件和目录
-- 支持http/https
-- 支持对request和response做定制化处理（见自定义扩展）
-
 
 ## 安装
 
@@ -44,15 +33,27 @@ pip install easy-mock
 
 ```
 
-## 使用
+## 启动Mock Server
 
-
-### 启动Mock Server
-服务启动后可调用yml中定义的mock服务
 ```sh
+启动服务
 easy_mock example.yml
+
+调用接口
 curl -H "Content-Type: application/json" -X POST 'http://127.0.0.1:9000/login' -d '{"username":"edison", "password": "123"}' | python -m json.tool
 ```
+
+## 功能介绍
+
+## v 1.0 主要功能
+- 根据Yaml文件内容返回Mock数据，两种方式： 
+  - 一、根据request内容返回defined_data_list中与之匹配的response
+  - 二、若defined_data_list未定义或无与request内容匹配的response,则根据response_schema返回随机数据：
+    - 支持的随机数据类型: bool, int, float, double, string
+- 根据PB(.proto)生成Mock接口文件(yml)
+- 支持http/https
+- 支持对request和response做定制化处理（见自定义扩展）
+
 
 ### 查看帮助
 
@@ -150,7 +151,7 @@ apis:
             "msg"
         ]
       }
-    defined_data_list: # 自定义返回 如果请求体于list中的body匹配， 则返回对应的response  response_schema 和 defined_data_list必须有一个匹配
+    defined_data_list: # 定义request与response的匹配关系  
       [
         {
           body: { "username": "edison", "password": "123" },
