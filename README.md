@@ -48,7 +48,7 @@ curl -H "Content-Type: application/json" -X POST 'http://127.0.0.1:9000/login' -
 
 ## 功能介绍
 
-## v 1.0 主要功能
+### v 1.0 主要功能
 - 根据Yaml文件内容返回Mock数据，两种方式： 
   - 一、根据request内容返回defined_data_list中与之匹配的response
   - 二、若defined_data_list未定义或无与request内容匹配的response,则根据response_schema返回随机数据：
@@ -79,7 +79,7 @@ optional arguments:
 
 ```
 
-## 自定义扩展
+### 自定义扩展
 
 在当前目录下新建python文件 `processor.py`
 
@@ -168,7 +168,7 @@ apis:
 ```
 
 
-## 将PB转换为Yaml
+### 将PB转换为Yaml
 
 **参数为.proto文件类型时生成yaml文件**
 ```sh
