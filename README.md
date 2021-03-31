@@ -15,7 +15,7 @@ example.yml
 apis:
   # 最精简写法
   - url: login # 接口路径
-    method: GET # 接口方法
+    method: POST # 接口方法
     defined_data_list: # request与response的匹配关系
       [
         {
