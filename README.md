@@ -39,13 +39,9 @@ apis:
 ## 安装
 
 ```sh
-两种安装方式：
-一、pip安装（不需要源码）
+
 pip install easy-mock
 
-二、源码安装(需安装setuptools)
-下载源码并进入到setup.py所在目录
-python setup.py install
 ```
 
 ## 使用
@@ -188,4 +184,5 @@ easy_mock server.proto -res
 - Json schema用法 http://json-schema.org/
 - JSON Schema入门 https://www.jianshu.com/p/1711f2f24dcf?utm_campaign=hugo
 - python打包及支持pip安装 https://blog.csdn.net/sinat_33718563/article/details/88928950
+- python setup.py install
 
