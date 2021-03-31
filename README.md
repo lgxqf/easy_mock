@@ -50,6 +50,14 @@ python setup.py install
 
 ## 使用
 
+
+### 启动Mock Server
+服务启动后可调用yml中定义的mock服务
+```sh
+easy_mock example.yml
+curl -H "Content-Type: application/json" -X POST 'http://127.0.0.1:9000/login' -d '{"username":"edison", "password": "123"}' | python -m json.tool
+```
+
 ### 查看帮助
 
 ```sh
@@ -70,14 +78,6 @@ optional arguments:
   -res           generate response_schema in yaml
 
 ```
-
-### 启动Mock Server
-服务启动后可调用yml中定义的mock服务
-```sh
-easy_mock example.yml
-curl -H "Content-Type: application/json" -X POST 'http://127.0.0.1:9000/login' -d '{"username":"edison", "password": "123"}' | python -m json.tool
-```
-
 
 ## 自定义扩展
 
